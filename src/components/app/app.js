@@ -5,9 +5,8 @@ import RandomPlanet from '../random-planet';
 import ErrorIndicator from '../error-indiactor';
 import './app.css';
 import ErrorBoundry from "../error-boundry";
-import ItemDetails from "../item-details";
 import SwapiService from "../../services/swapi-service";
-import {Record} from "../item-details/item-details";
+import {SwapiServiceProvider} from "../swapi-service-contex";
 import {
     PersonList,
     PlanetList,
@@ -48,26 +47,25 @@ export default class App extends Component {
 
         return (
             <ErrorBoundry>
-                <div className="stardb-app">
-                    <Header/>
+                <SwapiServiceProvider value={this.swapiService}>
+                    <div className="stardb-app">
+                        <Header/>
+                        {planet}
+                        <button
+                            className="toggle-planet btn btn-warning btn-lg"
+                            onClick={this.toggleRandomPlanet}>
+                            Toggle Random Planet
+                        </button>
+                        <Row left={<PersonList/>}
+                             right={<PersonDetails itemId={11}/>}/>
 
-                    {planet}
+                        <Row left={<PlanetList/>}
+                             right={<PlanetDetails itemId={11}/>}/>
 
-                    <button
-                        className="toggle-planet btn btn-warning btn-lg"
-                        onClick={this.toggleRandomPlanet}>
-                        Toggle Random Planet
-                    </button>
-
-                    <Row left={<PersonList/>}
-                         right={<PersonDetails itemId={11}/>} />
-
-                    <Row left={<PlanetList/>}
-                         right={<PlanetDetails itemId={11}/>} />
-
-                    <Row left={<StarshipList/>}
-                         right={<StarshipDetails itemId={11}/>} />
-                </div>
+                        <Row left={<StarshipList/>}
+                             right={<StarshipDetails itemId={11}/>}/>
+                    </div>
+                </SwapiServiceProvider>
             </ErrorBoundry>
         );
     }
