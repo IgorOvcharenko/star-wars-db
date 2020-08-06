@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import SwapiService from "../../services/swapi-service";
 import './random-planet.css';
 import Spinner from "../spinner";
@@ -14,9 +15,18 @@ export default class RandomPlanet extends Component {
         error: false,
     };
 
+    static defaultProps = {
+        updateInterval: 10000
+    }
+
+    static propTypes = {
+        updateInterval: PropTypes.number
+    }
+
     componentDidMount() {
+        const {updateInterval} = this.props
         this.updatePlanet()
-        this.interval = setInterval(this.updatePlanet, 5000);
+        this.interval = setInterval(this.updatePlanet, updateInterval);
 
     }
 
@@ -65,6 +75,7 @@ export default class RandomPlanet extends Component {
     }
 }
 
+
 const PlanetView = ({planet}) => {
     const {id, name, population, rotationPeriod, diameter} = planet;
 
@@ -72,8 +83,8 @@ const PlanetView = ({planet}) => {
         <React.Fragment>
             <img className="planet-image"
                  src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
-                alt="Planet"
-                />
+                 alt="Planet"
+            />
             <div>
                 <h4>{name}</h4>
                 <ul className="list-group list-group-flush">
