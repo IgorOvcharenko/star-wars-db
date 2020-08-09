@@ -9,7 +9,7 @@ import SwapiService from "../../services/swapi-service";
 import {SwapiServiceProvider} from "../swapi-service-contex";
 import {PeoplePage, PlanetPage, StarshipPage} from "../pages";
 
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import StarshipDetails from "../sw-components/starship-details";
 
 export default class App extends Component {
@@ -38,16 +38,18 @@ export default class App extends Component {
                             <Header/>
                             <RandomPlanet/>
 
-                            <Route path="/" render={() => <h2>Welcome to StarDB</h2>} exact/>
-                            <Route path="/people/:id?" component={PeoplePage}/>
-                            <Route path="/planets" component={PlanetPage}/>
-                            <Route path="/starships" exact component={StarshipPage}/>
-                            <Route path="/starships/:id"
-                                   render={({match}) => {
-                                       const {id} = match.params
-                                       return <StarshipDetails itemId={id}/>
-                                   }}/>
-
+                            <Switch>
+                                <Route path="/" render={() => <h2>Welcome to StarDB</h2>} exact/>
+                                <Route path="/people/:id?" component={PeoplePage}/>
+                                <Route path="/planets/:id?" component={PlanetPage}/>
+                                <Route path="/starships" exact component={StarshipPage}/>
+                                <Route path="/starships/:id"
+                                       render={({match}) => {
+                                           const {id} = match.params
+                                           return <StarshipDetails itemId={id}/>
+                                       }}/>
+                                <Route render={() => <h2>Page not found</h2>}/>
+                            </Switch>
                         </div>
                     </Router>
                 </SwapiServiceProvider>
